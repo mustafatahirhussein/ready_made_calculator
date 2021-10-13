@@ -1,7 +1,7 @@
 name: ready_made_calculator
 description: A Ready made Calculator with functionality included to speed up Application Process.
 version: 0.0.1
-authors: Mustafa Tahir <mustafatahirhussein@gmail.com>
+#authors: Mustafa Tahir <mustafatahirhussein@gmail.com>
 homepage: https://github.com/mustafatahirhussein/ready_made_calculator
 
 environment:
