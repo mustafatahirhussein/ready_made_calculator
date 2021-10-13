@@ -10,10 +10,10 @@ class ReadyMadeCalculator extends StatefulWidget {
 }
 
 class _ReadyMadeCalculatorState extends State<ReadyMadeCalculator> {
-  String userInput = "";
-  String answer = "";
+  String input = "";
+  String output = "";
 
-  final List<String> buttons = [
+  final List<String> calButtonsList = [
     'AC',
     '+/-',
     '%',
@@ -53,7 +53,7 @@ class _ReadyMadeCalculatorState extends State<ReadyMadeCalculator> {
               Align(
                 alignment: Alignment.topRight,
                 child: Text(
-                  userInput,
+                  input,
                   style: style.copyWith(
                       color: const Color(0xff000000), fontSize: 16),
                 ),
@@ -61,7 +61,7 @@ class _ReadyMadeCalculatorState extends State<ReadyMadeCalculator> {
               Align(
                 alignment: Alignment.topRight,
                 child: Text(
-                  answer,
+                  output,
                   style: style.copyWith(
                       color: const Color(0xff000000),
                       fontSize: 48,
@@ -74,7 +74,7 @@ class _ReadyMadeCalculatorState extends State<ReadyMadeCalculator> {
         Expanded(
           flex: 3,
           child: GridView.builder(
-              itemCount: buttons.length,
+              itemCount: calButtonsList.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4),
               itemBuilder: (BuildContext context, int index) {
@@ -84,11 +84,11 @@ class _ReadyMadeCalculatorState extends State<ReadyMadeCalculator> {
                   return CalButton(
                       onTapped: () {
                         setState(() {
-                          userInput = '';
-                          answer = '0';
+                          input = '';
+                          output = '0';
                         });
                       },
-                      value: buttons[index],
+                      value: calButtonsList[index],
                       color: const Color(0xff0099CC),
                       btnTextStyle: style);
                 }
@@ -96,18 +96,18 @@ class _ReadyMadeCalculatorState extends State<ReadyMadeCalculator> {
                 // +/- button
                 else if (index == 1) {
                   return CalButton(
-                    value: buttons[index],
+                    value: calButtonsList[index],
                     color: const Color(0xff0099CC),
                     btnTextStyle: style,
                     onTapped: () {
                       setState(() {
-                        if (contains(userInput, "-")) {
-                          String data = userInput.replaceAll("-", "+");
-                          answer = data;
-                        } else if (userInput.startsWith("+", 0)) {
-                          String data = userInput.replaceFirst("+", "-", 0);
-                          answer = data;
-                        } else if (userInput.isEmpty) {
+                        if (contains(input, "-")) {
+                          String data = input.replaceAll("-", "+");
+                          output = data;
+                        } else if (input.startsWith("+", 0)) {
+                          String data = input.replaceFirst("+", "-", 0);
+                          output = data;
+                        } else if (input.isEmpty) {
                         } else {}
                       });
                     },
@@ -118,10 +118,10 @@ class _ReadyMadeCalculatorState extends State<ReadyMadeCalculator> {
                   return CalButton(
                     onTapped: () {
                       setState(() {
-                        userInput += buttons[index];
+                        input += calButtonsList[index];
                       });
                     },
-                    value: buttons[index],
+                    value: calButtonsList[index],
                     color: const Color(0xff0099CC),
                     btnTextStyle: style,
                   );
@@ -131,11 +131,11 @@ class _ReadyMadeCalculatorState extends State<ReadyMadeCalculator> {
                   return CalButton(
                     onTapped: () {
                       setState(() {
-                        userInput =
-                            userInput.substring(0, userInput.length - 1);
+                        input =
+                            input.substring(0, input.length - 1);
                       });
                     },
-                    value: buttons[index],
+                    value: calButtonsList[index],
                     color: const Color(0xffEE2C2C),
                     btnTextStyle: style,
                   );
@@ -148,7 +148,7 @@ class _ReadyMadeCalculatorState extends State<ReadyMadeCalculator> {
                         equalsTo();
                       });
                     },
-                    value: buttons[index],
+                    value: calButtonsList[index],
                     color: const Color(0xff104E8B),
                     btnTextStyle: style,
                   );
@@ -159,15 +159,15 @@ class _ReadyMadeCalculatorState extends State<ReadyMadeCalculator> {
                   return CalButton(
                     onTapped: () {
                       setState(() {
-                        userInput += buttons[index];
+                        input += calButtonsList[index];
                       });
                     },
-                    value: buttons[index],
-                    color: isOperator(buttons[index])
+                    value: calButtonsList[index],
+                    color: isOperator(calButtonsList[index])
                         ? const Color(0xff104E8B)
                         : Colors.grey[200],
                     btnTextStyle: style.copyWith(
-                      color: isOperator(buttons[index])
+                      color: isOperator(calButtonsList[index])
                           ? const Color(0xffffffff)
                           : const Color(0xff000000),
                     ),
@@ -185,7 +185,7 @@ class _ReadyMadeCalculatorState extends State<ReadyMadeCalculator> {
     return CalButton(
       onTapped: () {
         setState(() {
-          userInput += buttons[index];
+          input += calButtonsList[index];
         });
       },
       value: value,
@@ -204,12 +204,12 @@ class _ReadyMadeCalculatorState extends State<ReadyMadeCalculator> {
   equalsTo() {
     try {
       Parser p = Parser();
-      Expression exp = p.parse(userInput.replaceAll('x', '*'));
+      Expression exp = p.parse(input.replaceAll('x', '*'));
       ContextModel cm = ContextModel();
       double eval = exp.evaluate(EvaluationType.REAL, cm);
-      answer = eval.toString();
+      output = eval.toString();
     } catch (e) {
-      answer = "Error";
+      output = "Error";
     }
   }
 }
