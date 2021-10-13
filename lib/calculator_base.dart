@@ -1,0 +1,270 @@
+import 'package:flutter/material.dart';
+import 'package:math_expressions/math_expressions.dart';
+import 'package:string_validator/string_validator.dart';
+
+class ReadyMadeCalculator extends StatefulWidget {
+  const ReadyMadeCalculator({Key? key}) : super(key: key);
+
+  @override
+  State<ReadyMadeCalculator> createState() => _ReadyMadeCalculatorState();
+}
+
+class _ReadyMadeCalculatorState extends State<ReadyMadeCalculator> {
+  String userInput = "";
+  String answer = "";
+
+  final List<String> buttons = [
+    'AC',
+    '+/-',
+    '%',
+    'DEL',
+    '7',
+    '8',
+    '9',
+    '/',
+    '4',
+    '5',
+    '6',
+    'x',
+    '1',
+    '2',
+    '3',
+    '-',
+    '0',
+    '.',
+    '=',
+    '+',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    var style = const TextStyle(
+        fontSize: 28,
+        fontFamily: 'Dosis',
+        color: Color(0xffffffff),
+        fontWeight: FontWeight.normal);
+
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Align(
+                alignment: Alignment.topRight,
+                child: Text(
+                  userInput,
+                  style: style.copyWith(
+                      color: const Color(0xff000000), fontSize: 16),
+                ),
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: Text(
+                  answer,
+                  style: style.copyWith(
+                      color: const Color(0xff000000),
+                      fontSize: 48,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          flex: 3,
+          child: GridView.builder(
+              itemCount: buttons.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4),
+              itemBuilder: (BuildContext context, int index) {
+                // Clear Button
+
+                if (index == 0) {
+                  return CalButton(
+                      onTapped: () {
+                        setState(() {
+                          userInput = '';
+                          answer = '0';
+                        });
+                      },
+                      value: buttons[index],
+                      color: const Color(0xff0099CC),
+                      btnTextStyle: style);
+                }
+
+                // +/- button
+                else if (index == 1) {
+                  return CalButton(
+                    value: buttons[index],
+                    color: const Color(0xff0099CC),
+                    btnTextStyle: style,
+                    onTapped: () {
+                      setState(() {
+                        if (contains(userInput, "-")) {
+                          String data = userInput.replaceAll("-", "+");
+                          answer = data;
+                        } else if (userInput.startsWith("+", 0)) {
+                          String data = userInput.replaceFirst("+", "-", 0);
+                          answer = data;
+                        } else if (userInput.isEmpty) {
+                        } else {}
+                      });
+                    },
+                  );
+                }
+                // % Button
+                else if (index == 2) {
+                  return CalButton(
+                    onTapped: () {
+                      setState(() {
+                        userInput += buttons[index];
+                      });
+                    },
+                    value: buttons[index],
+                    color: const Color(0xff0099CC),
+                    btnTextStyle: style,
+                  );
+                }
+                // Delete Button
+                else if (index == 3) {
+                  return CalButton(
+                    onTapped: () {
+                      setState(() {
+                        userInput =
+                            userInput.substring(0, userInput.length - 1);
+                      });
+                    },
+                    value: buttons[index],
+                    color: const Color(0xffEE2C2C),
+                    btnTextStyle: style,
+                  );
+                }
+                // Equal_to Button
+                else if (index == 18) {
+                  return CalButton(
+                    onTapped: () {
+                      setState(() {
+                        equalsTo();
+                      });
+                    },
+                    value: buttons[index],
+                    color: const Color(0xff104E8B),
+                    btnTextStyle: style,
+                  );
+                }
+
+                //  other buttons
+                else {
+                  return CalButton(
+                    onTapped: () {
+                      setState(() {
+                        userInput += buttons[index];
+                      });
+                    },
+                    value: buttons[index],
+                    color: isOperator(buttons[index])
+                        ? const Color(0xff104E8B)
+                        : Colors.grey[200],
+                    btnTextStyle: style.copyWith(
+                      color: isOperator(buttons[index])
+                          ? const Color(0xffffffff)
+                          : const Color(0xff000000),
+                    ),
+                  );
+                }
+              }),
+        ),
+      ],
+    );
+  }
+
+  displayBtn(String value, int index, Color color) {
+    TextStyle style = const TextStyle(fontSize: 16);
+
+    return CalButton(
+      onTapped: () {
+        setState(() {
+          userInput += buttons[index];
+        });
+      },
+      value: value,
+      color: color,
+      btnTextStyle: style,
+    );
+  }
+
+  bool isOperator(String x) {
+    if (x == '/' || x == 'x' || x == '-' || x == '+' || x == '=') {
+      return true;
+    }
+    return false;
+  }
+
+  equalsTo() {
+    try {
+      Parser p = Parser();
+      Expression exp = p.parse(userInput.replaceAll('x', '*'));
+      ContextModel cm = ContextModel();
+      double eval = exp.evaluate(EvaluationType.REAL, cm);
+      answer = eval.toString();
+    } catch (e) {
+      answer = "Error";
+    }
+  }
+}
+
+// Buttons
+class CalButton extends StatelessWidget {
+  final Color? color;
+  final String? value;
+  final TextStyle? btnTextStyle;
+  final VoidCallback? onTapped;
+
+  const CalButton(
+      {Key? key,
+      required this.color,
+      required this.value,
+      required this.btnTextStyle,
+      this.onTapped})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+        child: Container(
+          height: 50,
+          width: 50,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(60)),
+            color: color,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                offset: const Offset(0, 3), // changes position of shadow
+              ),
+            ],
+          ),
+          child: Center(
+            child: Text(
+              value!,
+              textAlign: TextAlign.center,
+              style: btnTextStyle,
+            ),
+          ),
+        ),
+      ),
+      onTap: onTapped!,
+    );
+  }
+}
+
+// Unit Test
+class Validate{
+
+  static addNo(int v1,int v2){
+    return v1+v2;
+  }
+}
