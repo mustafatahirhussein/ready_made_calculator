@@ -82,7 +82,7 @@ packages:
     source: hosted
     version: "0.12.10"
   math_expressions:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: math_expressions
       url: "https://pub.dartlang.org"
@@ -136,7 +136,7 @@ packages:
     source: hosted
     version: "1.1.0"
   string_validator:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: string_validator
       url: "https://pub.dartlang.org"
