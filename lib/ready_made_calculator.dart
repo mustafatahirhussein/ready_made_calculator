@@ -46,6 +46,7 @@ class _ReadyMadeCalculatorState extends State<ReadyMadeCalculator> {
 
     return Column(
       children: <Widget>[
+
         Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -55,7 +56,7 @@ class _ReadyMadeCalculatorState extends State<ReadyMadeCalculator> {
                 child: Text(
                   input,
                   style: style.copyWith(
-                      color: const Color(0xff000000), fontSize: 16),
+                      color: const Color(0xff000000), fontSize: 20),
                 ),
               ),
               Align(
@@ -71,10 +72,12 @@ class _ReadyMadeCalculatorState extends State<ReadyMadeCalculator> {
             ],
           ),
         ),
+
         Expanded(
-          flex: 3,
+          flex: 2,
           child: GridView.builder(
               itemCount: calButtonsList.length,
+              physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4),
               itemBuilder: (BuildContext context, int index) {
@@ -131,8 +134,7 @@ class _ReadyMadeCalculatorState extends State<ReadyMadeCalculator> {
                   return CalButton(
                     onTapped: () {
                       setState(() {
-                        input =
-                            input.substring(0, input.length - 1);
+                        input = input.substring(0, input.length - 1);
                       });
                     },
                     value: calButtonsList[index],
@@ -223,10 +225,10 @@ class CalButton extends StatelessWidget {
 
   const CalButton(
       {Key? key,
-        required this.color,
-        required this.value,
-        required this.btnTextStyle,
-        this.onTapped})
+      required this.color,
+      required this.value,
+      required this.btnTextStyle,
+      this.onTapped})
       : super(key: key);
 
   @override
@@ -244,7 +246,7 @@ class CalButton extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.2),
-                offset: const Offset(0, 3), // changes position of shadow
+                offset: const Offset(0, 3),
               ),
             ],
           ),
@@ -262,9 +264,8 @@ class CalButton extends StatelessWidget {
 }
 
 // Unit Test
-class Validate{
-
-  static addNo(int v1,int v2){
-    return v1+v2;
+class Validate {
+  static addNo(int v1, int v2) {
+    return v1 + v2;
   }
 }

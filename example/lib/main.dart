@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ready_made_calculator/ready_made_calculator.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,6 +11,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ReadyMadeCalculator();
+    return const MaterialApp(
+      home: Scaffold(
+        body: ReadyMadeCalculator(),
+      ),
+    );
   }
 }
