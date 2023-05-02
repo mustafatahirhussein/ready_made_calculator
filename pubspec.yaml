@@ -12,12 +12,12 @@ dependencies:
   flutter:
     sdk: flutter
   math_expressions: ^2.2.0
-  string_validator: ^0.3.0
+  string_validator: ^1.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

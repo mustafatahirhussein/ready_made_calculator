@@ -223,15 +223,16 @@ class CalButton extends StatelessWidget {
 
   const CalButton(
       {Key? key,
-      required this.color,
-      required this.value,
-      required this.btnTextStyle,
-      this.onTapped})
+        required this.color,
+        required this.value,
+        required this.btnTextStyle,
+        this.onTapped})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: onTapped!,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
         child: Container(
@@ -256,7 +257,6 @@ class CalButton extends StatelessWidget {
           ),
         ),
       ),
-      onTap: onTapped!,
     );
   }
 }
