@@ -46,7 +46,6 @@ class _ReadyMadeCalculatorState extends State<ReadyMadeCalculator> {
 
     return Column(
       children: <Widget>[
-
         Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -72,7 +71,6 @@ class _ReadyMadeCalculatorState extends State<ReadyMadeCalculator> {
             ],
           ),
         ),
-
         Expanded(
           flex: 2,
           child: GridView.builder(
